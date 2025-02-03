@@ -11,13 +11,4 @@ public class CommunityDTO {
     private String description;
     private Long creatorId;
 
-    public static CommunityDTO fromCommunity(Community community) {
-        CommunityDTO dto = new CommunityDTO();
-        dto.id = community.getId();
-        dto.creatorId = community.getCreatorId();
-        dto.description = community.getDescription();
-        dto.name = community.getName();
-
-        return dto;
-    }
 }

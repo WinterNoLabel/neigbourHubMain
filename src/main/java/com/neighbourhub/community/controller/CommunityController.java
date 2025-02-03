@@ -83,4 +83,24 @@ public class CommunityController {
         return ResponseEntity.ok(result);
     }
 
+    @PatchMapping
+    @Operation(
+            summary = "Обновление сообщества",
+            description = "Обновление параметров сообщества"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Идентификатор успешно отредактированого сообщества",
+            content = @Content(schema = @Schema(implementation = Integer.class))
+    )
+    @ApiResponse(
+            responseCode = "400",
+            description = "Ошибка валидации",
+            content = @Content(schema = @Schema(implementation = ValidationErrorResponse.class))
+    )
+    public ResponseEntity<?> updateCommunity(@RequestBody CommunityDTO dto) {
+        Integer updatedCommunityId = communityService.updateCommunity(dto);
+        return ResponseEntity.ok(updatedCommunityId);
+    }
+
 }

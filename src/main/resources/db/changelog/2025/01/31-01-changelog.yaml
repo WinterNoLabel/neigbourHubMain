@@ -1,0 +1,27 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1738326958165-1
+      author: timur
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_communitylocation
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: location_type
+                  type: VARCHAR(100)
+              - column:
+                  name: location_id
+                  type: BIGINT
+              - column:
+                  name: community_id
+                  type: BIGINT
+            tableName: community_location
+        - sql:
+            sql: "ALTER TABLE community_location ADD CONSTRAINT chk_community_location_type CHECK (location_type IN ('town', 'district', 'geo'));"

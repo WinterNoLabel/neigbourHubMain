@@ -1,4 +1,6 @@
 databaseChangeLog:
+  - includeAll:
+      path: db/changelog/2025
   - changeSet:
       id: 1
       author: timur

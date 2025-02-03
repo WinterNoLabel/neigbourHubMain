@@ -29,7 +29,7 @@ public class CommunityService {
         Community community = CommunityCreateDTO.toCommunity(dto);
         community.setCreatedAt(LocalDateTime.now());
 
-        return CommunityDTO.fromCommunity(communityRepository.save(community));
+        return communityMapper.toDto(communityRepository.save(community));
     }
 
     public List<CommunityDTO> searchCommunities(CommunitySearchCriteria criteria) {
@@ -38,6 +38,7 @@ public class CommunityService {
     }
 
 
-
-
+    public Integer updateCommunity(CommunityDTO dto) {
+        return communityRepository.updateCommunity(dto.getName(), dto.getDescription(), dto.getId());
+    }
 }

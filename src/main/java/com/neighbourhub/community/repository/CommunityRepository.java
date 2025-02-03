@@ -5,7 +5,10 @@ import com.neighbourhub.community.entity.Community;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,4 +36,8 @@ public interface CommunityRepository extends JpaRepository<Community, Long>, Jpa
         });
     }
 
+    @Transactional
+    @Modifying
+    @Query("update Community c set c.name = ?1, c.description = ?2 where c.id = ?3")
+    int updateCommunity(String name, String description, Long id);
 }

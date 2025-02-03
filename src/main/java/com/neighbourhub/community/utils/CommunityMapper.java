@@ -11,4 +11,5 @@ import java.util.List;
 public interface CommunityMapper {
     CommunityDTO toDto(Community community);
     List<CommunityDTO> toDtoList(List<Community> communities);
+    Community toEntity(CommunityDTO communityDTO);
 }
