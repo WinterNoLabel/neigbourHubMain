@@ -1,12 +1,15 @@
 package com.neighbourhub.utils.web.controller;
 
+import com.neighbourhub.utils.exception.AccessDeniedByPermissionException;
 import com.neighbourhub.utils.web.dto.ValidationErrorResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -39,5 +42,11 @@ public class GlobalExceptionHandler {
             errors.put(fieldName, errorMessage);
         });
         return new ValidationErrorResponse("VALIDATION_FAILED", errors);
+    }
+
+    @ExceptionHandler(AccessDeniedByPermissionException.class)
+    public ResponseEntity<ErrorResponse> handleAccessDenied(AccessDeniedByPermissionException ex) {
+        ErrorResponse error = new AccessDeniedByPermissionException(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
     }
 }

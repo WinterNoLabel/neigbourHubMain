@@ -4,6 +4,8 @@ import com.neighbourhub.community.dto.CommunityCreateDTO;
 import com.neighbourhub.community.dto.CommunityDTO;
 import com.neighbourhub.community.dto.CommunitySearchCriteria;
 import com.neighbourhub.community.service.CommunityService;
+import com.neighbourhub.permissions.CommunityPermission;
+import com.neighbourhub.permissions.CommunityPermissionType;
 import com.neighbourhub.utils.web.dto.ValidationErrorResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -83,9 +85,9 @@ public class CommunityController {
         return ResponseEntity.ok(result);
     }
 
-    @PatchMapping
+    @PatchMapping("/{communityId}")
     @Operation(
-            summary = "Обновление сообщества",
+            summary = "Обновление описания",
             description = "Обновление параметров сообщества"
     )
     @ApiResponse(
@@ -98,8 +100,15 @@ public class CommunityController {
             description = "Ошибка валидации",
             content = @Content(schema = @Schema(implementation = ValidationErrorResponse.class))
     )
-    public ResponseEntity<?> updateCommunity(@RequestBody CommunityDTO dto) {
-        Integer updatedCommunityId = communityService.updateCommunity(dto);
+    @CommunityPermission(
+            permission = CommunityPermissionType.EDIT_DESCRIPTION,
+            userId = "#userId",
+            communityId = "#communityId"
+    )
+    public ResponseEntity<?> updateDescription(@PathVariable Long communityId,
+                                               @RequestParam Long userId,
+                                               @RequestBody String description) {
+        Integer updatedCommunityId = communityService.updateDescription(description, communityId);
         return ResponseEntity.ok(updatedCommunityId);
     }
 

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CommunityService {
@@ -37,8 +38,15 @@ public class CommunityService {
         return communityMapper.toDtoList(communities);
     }
 
-
     public Integer updateCommunity(CommunityDTO dto) {
         return communityRepository.updateCommunity(dto.getName(), dto.getDescription(), dto.getId());
+    }
+
+    public Integer updateDescription(String description, Long id) {
+        return communityRepository.updateDescription(description, id);
+    }
+
+    public CommunityDTO findById(Long id) {
+        return communityMapper.toDto(communityRepository.findById(id).orElse(null));
     }
 }

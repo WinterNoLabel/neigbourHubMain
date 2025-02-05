@@ -1,0 +1,92 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-permissions-table
+      author: timur
+      changes:
+        - createTable:
+            tableName: permissions
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: type
+                  type: VARCHAR(50)
+                  constraints:
+                    unique: true
+                    nullable: false
+
+  - changeSet:
+      id: insert-default-permissions
+      author: timur
+      changes:
+        - sql:
+            sql: |
+              INSERT INTO permissions (type) VALUES
+              ('EDIT_DESCRIPTION'),
+              ('EDIT_NAME'),
+              ('WRITE_TO_CHAT'),
+              ('INVITE_USERS'),
+              ('STREAM');
+
+  - changeSet:
+      id: create-roles-table
+      author: timur
+      changes:
+        - createTable:
+            tableName: roles
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: VARCHAR(100)
+              - column:
+                  name: community_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: create-role-permissions-table
+      author: timur
+      changes:
+        - createTable:
+            tableName: role_permissions
+            columns:
+              - column:
+                  name: role_id
+                  type: BIGINT
+              - column:
+                  name: permission_id
+                  type: BIGINT
+            constraints:
+              primaryKey:
+                columnNames: role_id, permission_id
+
+  - changeSet:
+      id: create-user-community-roles-table
+      author: timur
+      changes:
+        - createTable:
+            tableName: user_community_roles
+            columns:
+              - column:
+                  name: user_id
+                  type: BIGINT
+              - column:
+                  name: community_id
+                  type: BIGINT
+              - column:
+                  name: role_id
+                  type: BIGINT
+            constraints:
+              primaryKey:
+                columnNames: user_id, community_id, role_id

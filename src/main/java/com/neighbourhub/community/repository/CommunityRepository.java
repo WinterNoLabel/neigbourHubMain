@@ -40,4 +40,10 @@ public interface CommunityRepository extends JpaRepository<Community, Long>, Jpa
     @Modifying
     @Query("update Community c set c.name = ?1, c.description = ?2 where c.id = ?3")
     int updateCommunity(String name, String description, Long id);
+
+
+    @Transactional
+    @Modifying
+    @Query("update Community c set c.description = ?1 where c.id = ?2")
+    int updateDescription(String description, Long id);
 }
