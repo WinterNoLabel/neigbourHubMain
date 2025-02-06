@@ -27,4 +27,7 @@ public class Community {
     private LocalDateTime createdAt;
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
+
+    @Column(name = "photo_url")
+    private String photoUrl;
 }

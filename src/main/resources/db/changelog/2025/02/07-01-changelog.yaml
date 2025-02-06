@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-photo-url-to-communities
+      author: timur
+      changes:
+        - addColumn:
+            tableName: community
+            columns:
+              - column:
+                  name: photo_url
+                  type: VARCHAR(255)
+                  remarks: "Ссылка на фотографию сообщества"

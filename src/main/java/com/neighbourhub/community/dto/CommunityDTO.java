@@ -9,5 +9,6 @@ public class CommunityDTO {
     private String name;
     private String description;
     private Long creatorId;
+    private String photoUrl;
 
 }

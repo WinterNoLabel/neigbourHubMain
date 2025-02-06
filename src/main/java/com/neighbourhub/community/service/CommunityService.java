@@ -17,6 +17,8 @@ import com.neighbourhub.member.CommunityMemberService;
 import com.neighbourhub.permissions.CommunityPermissionType;
 import com.neighbourhub.permissions.entity.Role;
 import com.neighbourhub.permissions.service.RoleService;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -90,5 +92,14 @@ public class CommunityService {
 
     public CommunityDTO findById(Long id) {
         return communityMapper.toDto(communityRepository.findById(id).orElse(null));
+    }
+
+    @Transactional
+    public CommunityDTO updatePhoto(Long communityId, String photoUrl) {
+        Community community = communityRepository.findById(communityId)
+                .orElseThrow(() -> new EntityNotFoundException("Сообщество не найдено"));
+
+        community.setPhotoUrl(photoUrl);
+        return communityMapper.toDto(community);
     }
 }
