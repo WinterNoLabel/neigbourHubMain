@@ -1,0 +1,35 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1738863162436-1
+      author: timur
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_communityfirebasechat
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: community_id
+                  type: BIGINT
+              - column:
+                  name: chat_id
+                  type: VARCHAR(255)
+            tableName: community_firebase_chat
+  - changeSet:
+      id: 1738863162436-2
+      author: timur
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: community_id
+            baseTableName: community_firebase_chat
+            constraintName: FK_COMMUNITYFIREBASECHAT_ON_COMMUNITY
+            referencedColumnNames: id
+            referencedTableName: community
+

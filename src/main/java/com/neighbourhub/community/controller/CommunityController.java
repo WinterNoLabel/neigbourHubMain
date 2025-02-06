@@ -107,5 +107,4 @@ public class CommunityController {
         Integer updatedCommunityId = communityService.updateDescription(description, communityId);
         return ResponseEntity.ok(updatedCommunityId);
     }
-
 }
