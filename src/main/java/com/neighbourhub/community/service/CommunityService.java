@@ -6,6 +6,7 @@ import com.neighbourhub.community.dto.CommunitySearchCriteria;
 import com.neighbourhub.community.entity.Community;
 import com.neighbourhub.community.repository.CommunityRepository;
 import com.neighbourhub.community.utils.CommunityMapper;
+import com.neighbourhub.member.CommunityMemberService;
 import com.neighbourhub.permissions.CommunityPermissionType;
 import com.neighbourhub.permissions.entity.Role;
 import com.neighbourhub.permissions.service.RoleService;
@@ -22,15 +23,16 @@ public class CommunityService {
     private final CommunityRepository communityRepository;
     private final CommunityMapper communityMapper;
     private final RoleService roleService;
+    private final CommunityMemberService communityMemberService;
 
     public CommunityDTO createCommunity(CommunityCreateDTO dto) {
         Community community = CommunityCreateDTO.toCommunity(dto);
         community.setCreatedAt(LocalDateTime.now());
 
         Community createdCommunity = communityRepository.save(community);
+        communityMemberService.addMember(createdCommunity.getId(), dto.getCreatorId());
 
         Role creatorRole = roleService.createRole("Создатель", createdCommunity.getId(), CommunityPermissionType.allPerms());
-
         roleService.assignRoleToUser(dto.getCreatorId(), creatorRole.getId(), createdCommunity.getId());
 
         return communityMapper.toDto(createdCommunity);

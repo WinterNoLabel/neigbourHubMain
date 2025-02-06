@@ -106,4 +106,8 @@ public class RoleService {
         role.setPermissions(permissionEntities);
         return roleRepository.save(role);
     }
+
+    public List<Role> getUserRolesInCommunity(Long communityId, Long memberId) {
+        return userCommunityRoleRepo.findRolesByUserAndCommunity(memberId, communityId);
+    }
 }

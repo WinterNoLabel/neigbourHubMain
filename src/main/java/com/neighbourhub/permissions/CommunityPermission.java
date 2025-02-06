@@ -9,6 +9,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CommunityPermission {
     CommunityPermissionType permission();
-    String communityId(); // SpEL-выражение (например, "#communityId")
-    String userId();      // SpEL-выражение (например, "#userId")
+    String communityId();
+    String userId();
 }

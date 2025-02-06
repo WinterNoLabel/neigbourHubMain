@@ -11,7 +11,8 @@ public enum CommunityPermissionType {
     KICK_MEMBER,
     CREATE_ROLES,
     MANAGE_ROLES,
-    STREAM;
+    STREAM,
+    MANAGE_MEMBERS;
 
     public static List<CommunityPermissionType> allPerms() {
         return Arrays.stream(CommunityPermissionType.values()).toList();

@@ -1,0 +1,20 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-community-members-table
+      author: timur
+      changes:
+        - createTable:
+            tableName: community_members
+            columns:
+              - column:
+                  name: user_id
+                  type: BIGINT
+              - column:
+                  name: community_id
+                  type: BIGINT
+              - column:
+                  name: joined_at
+                  type: TIMESTAMP
+            constraints:
+              primaryKey:
+                columnNames: user_id, community_id

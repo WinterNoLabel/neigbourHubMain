@@ -27,7 +27,6 @@ public class CommunityPermissionAspect {
         Long communityId = evaluateSpel(communityPermission.communityId(), joinPoint);
         Long userId = evaluateSpel(communityPermission.userId(), joinPoint);
 
-        // Проверка прав
         if (!permissionService.hasPermission(userId, communityId, communityPermission.permission())) {
             throw new AccessDeniedByPermissionException("User " + userId + " has no permission: " + communityPermission.permission());
         }
