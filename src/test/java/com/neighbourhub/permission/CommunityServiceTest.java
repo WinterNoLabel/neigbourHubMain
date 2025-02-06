@@ -62,27 +62,21 @@ public class CommunityServiceTest {
 
     @Test
     void createCommunity_ValidData_ShouldPersist() {
-        // Given
         CommunityCreateDTO dto = new CommunityCreateDTO("Dev Community", "For developers", 1L);
 
-        // When
         CommunityDTO saved = communityService.createCommunity(dto);
 
-        // Then
         assertNotNull(saved.getId());
         assertEquals("Dev Community", saved.getName());
     }
 
     @Test
     void findById_ExistingId_ShouldReturnCommunity() {
-        // Given
         CommunityCreateDTO dto = new CommunityCreateDTO("Dev Community", "For developers", 1L);
         CommunityDTO saved = communityService.createCommunity(dto);
 
-        // When
         CommunityDTO found = communityService.findById(saved.getId());
 
-        // Then
         assertEquals(saved.getId(), found.getId());
         assertEquals("Dev Community", found.getName());
     }
@@ -107,14 +101,12 @@ public class CommunityServiceTest {
         userRole.setRole(moderatorRole);
         roleRepository.save(userRole);
 
-        // When
         boolean hasPermission = permissionService.hasPermission(
                 1L,
                 community.getId(),
                 CommunityPermissionType.EDIT_DESCRIPTION
         );
 
-        // Then
         assertTrue(hasPermission);
     }
 }

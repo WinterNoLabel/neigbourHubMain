@@ -11,6 +11,7 @@ import com.neighbourhub.permissions.repository.PermissionRepository;
 import com.neighbourhub.permissions.repository.RoleRepository;
 import com.neighbourhub.permissions.repository.UserCommunityRoleRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,7 @@ public class RoleService {
     private final UserCommunityRoleRepository userCommunityRoleRepo;
     private final CommunityRepository communityRepository;
 
+    @Transactional
     public Role createRole(String name, Community community, Set<Permission> permissions) {
         Role role = new Role();
         role.setName(name);
@@ -34,6 +36,7 @@ public class RoleService {
         return roleRepository.save(role);
     }
 
+    @Transactional
     public void assignRoleToUser(Long targetUserId, Long roleId, Long communityId) {
         Role role = roleRepository.findByIdAndCommunity_Id(roleId, communityId)
                 .orElseThrow(() -> new EntityNotFoundException("Role not found"));
@@ -56,6 +59,7 @@ public class RoleService {
         userCommunityRoleRepo.save(userRole);
     }
 
+    @Transactional
     public void revokeRoleFromUser(Long targetUserId, Long roleId, Long communityId) {
         UserCommunityRoleId id = new UserCommunityRoleId();
         id.setUserId(targetUserId);
@@ -65,6 +69,7 @@ public class RoleService {
         userCommunityRoleRepo.deleteById(id);
     }
 
+    @Transactional
     public void deleteRole(Long roleId, Long communityId) {
         Role role = roleRepository.findByIdAndCommunity_Id(roleId, communityId)
                 .orElseThrow(() -> new EntityNotFoundException("Role not found"));
@@ -73,6 +78,7 @@ public class RoleService {
         roleRepository.delete(role);
     }
 
+    @Transactional
     public Role createRole(String name, Long communityId, List<CommunityPermissionType> permissions) {
         Community community = communityRepository.findById(communityId)
                 .orElseThrow(() -> new EntityNotFoundException("Community not found"));
@@ -90,6 +96,7 @@ public class RoleService {
         return roleRepository.save(role);
     }
 
+    @Transactional
     public Role createRole(String name, Long communityId, Set<Long> permissionsIds) {
         Community community = communityRepository.findById(communityId)
                 .orElseThrow(() -> new EntityNotFoundException("Community not found"));
@@ -107,6 +114,7 @@ public class RoleService {
         return roleRepository.save(role);
     }
 
+    @Transactional
     public List<Role> getUserRolesInCommunity(Long communityId, Long memberId) {
         return userCommunityRoleRepo.findRolesByUserAndCommunity(memberId, communityId);
     }
