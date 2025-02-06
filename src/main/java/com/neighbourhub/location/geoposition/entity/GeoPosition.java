@@ -1,13 +1,17 @@
 package com.neighbourhub.location.geoposition.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
 @Entity
+@Table(name = "geo_position")
 public class GeoPosition {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

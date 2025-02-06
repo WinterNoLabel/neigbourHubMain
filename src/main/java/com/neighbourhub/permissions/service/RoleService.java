@@ -11,8 +11,6 @@ import com.neighbourhub.permissions.repository.PermissionRepository;
 import com.neighbourhub.permissions.repository.RoleRepository;
 import com.neighbourhub.permissions.repository.UserCommunityRoleRepository;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -34,18 +32,6 @@ public class RoleService {
         role.setCommunity(community);
         role.setPermissions(permissions);
         return roleRepository.save(role);
-    }
-
-    public void assignRoleToUser(Long userId, Community community, Role role) {
-        UserCommunityRole userRole = new UserCommunityRole();
-        UserCommunityRoleId id = new UserCommunityRoleId();
-        id.setUserId(userId);
-        id.setCommunityId(community.getId());
-        id.setRoleId(role.getId());
-        userRole.setId(id);
-        userRole.setCommunity(community);
-        userRole.setRole(role);
-        userCommunityRoleRepo.save(userRole);
     }
 
     public void assignRoleToUser(Long targetUserId, Long roleId, Long communityId) {

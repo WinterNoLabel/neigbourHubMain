@@ -1,17 +1,13 @@
 package com.neighbourhub.location.community.service;
 
 import com.neighbourhub.location.community.entity.CommunityLocation;
-import com.neighbourhub.location.community.entity.CommunityLocationDto;
 import com.neighbourhub.location.community.repository.CommunityLocationRepository;
 import com.neighbourhub.location.district.repository.DistrictRepository;
 import com.neighbourhub.location.geoposition.repository.GeoPositionRepository;
 import com.neighbourhub.location.town.repository.TownRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
-
-import static com.neighbourhub.location.LocationType.*;
 
 @RequiredArgsConstructor
 @Service

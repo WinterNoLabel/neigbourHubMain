@@ -14,8 +14,6 @@ import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.stereotype.Component;
 
-import java.nio.file.AccessDeniedException;
-
 @Aspect
 @Component
 @RequiredArgsConstructor
