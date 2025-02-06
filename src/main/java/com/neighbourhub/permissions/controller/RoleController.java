@@ -29,9 +29,7 @@ public class RoleController {
     private final CommunityPermissionService permissionService;
 
     @CommunityPermission(
-            permission = CommunityPermissionType.CREATE_ROLES,
-            communityId = "#communityId",
-            userId = "#userId"
+            permission = CommunityPermissionType.CREATE_ROLES
     )
     @Operation(
             summary = "Создать новую роль",
@@ -63,9 +61,7 @@ public class RoleController {
     }
 
     @CommunityPermission(
-            permission = CommunityPermissionType.MANAGE_ROLES,
-            communityId = "#communityId",
-            userId = "#userId"
+            permission = CommunityPermissionType.MANAGE_ROLES
     )
     @Operation(
             summary = "Назначить роль пользователю",
@@ -92,9 +88,7 @@ public class RoleController {
     }
 
     @CommunityPermission(
-            permission = CommunityPermissionType.MANAGE_ROLES,
-            communityId = "#communityId",
-            userId = "#userId"
+            permission = CommunityPermissionType.MANAGE_ROLES
     )
     @Operation(
             summary = "Отозвать роль у пользователя",
@@ -120,9 +114,7 @@ public class RoleController {
     }
 
     @CommunityPermission(
-            permission = CommunityPermissionType.MANAGE_ROLES,
-            communityId = "#communityId",
-            userId = "#userId"
+            permission = CommunityPermissionType.MANAGE_ROLES
     )
     @Operation(
             summary = "Удалить роль",

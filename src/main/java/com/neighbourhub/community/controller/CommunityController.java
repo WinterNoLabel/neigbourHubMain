@@ -99,9 +99,7 @@ public class CommunityController {
             content = @Content(schema = @Schema(implementation = ValidationErrorResponse.class))
     )
     @CommunityPermission(
-            permission = CommunityPermissionType.EDIT_DESCRIPTION,
-            userId = "#userId",
-            communityId = "#communityId"
+            permission = CommunityPermissionType.EDIT_DESCRIPTION
     )
     public ResponseEntity<?> updateDescription(@PathVariable Long communityId,
                                                @RequestParam Long userId,
