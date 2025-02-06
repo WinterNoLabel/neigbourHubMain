@@ -16,6 +16,7 @@ import jakarta.validation.constraints.NotEmpty;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -50,6 +51,8 @@ public class RoleService {
     public void assignRoleToUser(Long targetUserId, Long roleId, Long communityId) {
         Role role = roleRepository.findByIdAndCommunity_Id(roleId, communityId)
                 .orElseThrow(() -> new EntityNotFoundException("Role not found"));
+        Community community = communityRepository.findById(communityId).orElseThrow(
+                () -> new EntityNotFoundException("Community not found"));
 
         UserCommunityRoleId id = new UserCommunityRoleId();
         id.setUserId(targetUserId);
@@ -62,6 +65,8 @@ public class RoleService {
 
         UserCommunityRole userRole = new UserCommunityRole();
         userRole.setId(id);
+        userRole.setRole(role);
+        userRole.setCommunity(community);
         userCommunityRoleRepo.save(userRole);
     }
 
@@ -82,12 +87,29 @@ public class RoleService {
         roleRepository.delete(role);
     }
 
-    public Role createRole(String name, Long communityId, Set<CommunityPermissionType> permissions) {
+    public Role createRole(String name, Long communityId, List<CommunityPermissionType> permissions) {
         Community community = communityRepository.findById(communityId)
                 .orElseThrow(() -> new EntityNotFoundException("Community not found"));
 
         Set<Permission> permissionEntities = permissions.stream()
                 .map(p -> permissionRepository.findByType(p)
+                        .orElseThrow(() -> new IllegalArgumentException("Invalid permission: " + p))
+                )
+                .collect(Collectors.toSet());
+
+        Role role = new Role();
+        role.setName(name);
+        role.setCommunity(community);
+        role.setPermissions(permissionEntities);
+        return roleRepository.save(role);
+    }
+
+    public Role createRole(String name, Long communityId, Set<Long> permissionsIds) {
+        Community community = communityRepository.findById(communityId)
+                .orElseThrow(() -> new EntityNotFoundException("Community not found"));
+
+        Set<Permission> permissionEntities = permissionsIds.stream()
+                .map(p -> permissionRepository.findById(p)
                         .orElseThrow(() -> new IllegalArgumentException("Invalid permission: " + p))
                 )
                 .collect(Collectors.toSet());

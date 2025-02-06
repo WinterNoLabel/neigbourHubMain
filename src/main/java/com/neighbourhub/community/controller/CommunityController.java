@@ -9,6 +9,7 @@ import com.neighbourhub.permissions.CommunityPermissionType;
 import com.neighbourhub.utils.web.dto.ValidationErrorResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -57,17 +58,14 @@ public class CommunityController {
     @GetMapping
     @Operation(
             summary = "Поиск сообществ",
-            description = "Поиск сообщества по различным параметрам"
+            description = "Поиск сообществ по различным параметрам"
     )
     @ApiResponse(
             responseCode = "200",
-            description = "Сообщество успешно создано",
-            content = @Content(schema = @Schema(implementation = CommunityDTO.class))
-    )
-    @ApiResponse(
-            responseCode = "400",
-            description = "Ошибка валидации",
-            content = @Content(schema = @Schema(implementation = ValidationErrorResponse.class))
+            content = @Content(
+                    mediaType = "application/json",
+                    array = @ArraySchema(schema = @Schema(implementation = CommunityDTO.class))
+            )
     )
     public ResponseEntity<List<CommunityDTO>> searchCommunities(
             @Parameter(description = "ID сообщества") @RequestParam(required = false) Long id,
@@ -88,7 +86,7 @@ public class CommunityController {
     @PatchMapping("/{communityId}")
     @Operation(
             summary = "Обновление описания",
-            description = "Обновление параметров сообщества"
+            description = "Обновление описания сообщества"
     )
     @ApiResponse(
             responseCode = "200",

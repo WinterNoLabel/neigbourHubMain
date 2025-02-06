@@ -6,31 +6,34 @@ import com.neighbourhub.community.dto.CommunitySearchCriteria;
 import com.neighbourhub.community.entity.Community;
 import com.neighbourhub.community.repository.CommunityRepository;
 import com.neighbourhub.community.utils.CommunityMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.neighbourhub.permissions.CommunityPermissionType;
+import com.neighbourhub.permissions.entity.Role;
+import com.neighbourhub.permissions.service.RoleService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class CommunityService {
 
     private final CommunityRepository communityRepository;
     private final CommunityMapper communityMapper;
-
-    public CommunityService(CommunityRepository communityRepository,
-                            @Autowired CommunityMapper communityMapper
-    ) {
-        this.communityRepository = communityRepository;
-        this.communityMapper = communityMapper;
-    }
+    private final RoleService roleService;
 
     public CommunityDTO createCommunity(CommunityCreateDTO dto) {
         Community community = CommunityCreateDTO.toCommunity(dto);
         community.setCreatedAt(LocalDateTime.now());
 
-        return communityMapper.toDto(communityRepository.save(community));
+        Community createdCommunity = communityRepository.save(community);
+
+        Role creatorRole = roleService.createRole("Создатель", createdCommunity.getId(), CommunityPermissionType.allPerms());
+
+        roleService.assignRoleToUser(dto.getCreatorId(), creatorRole.getId(), createdCommunity.getId());
+
+        return communityMapper.toDto(createdCommunity);
     }
 
     public List<CommunityDTO> searchCommunities(CommunitySearchCriteria criteria) {
