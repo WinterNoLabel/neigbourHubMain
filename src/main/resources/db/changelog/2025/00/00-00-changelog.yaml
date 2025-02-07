@@ -1,7 +1,12 @@
 databaseChangeLog:
   - changeSet:
-      id: 1
+      id: create-community-d
       author: timur
+      preConditions:
+        - onFail: WARN
+        - not:
+            - tableExists:
+                tableName: community
       changes:
         - createTable:
             tableName: community
